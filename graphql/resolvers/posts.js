@@ -58,7 +58,7 @@ module.exports = {
               throw new Error(err);
             }
         },
-        async createCard(_,{boardId, postId, body }, context){
+        async createCard(_,{postId, body }, context){
             const { username } = checkAuth(context);
             if (body.trim()==='') {
                 throw new UserInputError('Empty comment',{
@@ -67,11 +67,32 @@ module.exports = {
                     }
                 })
             }
-            const board = await Board.findById(boardId);
-            const post = await board.posts.find(p => p.id === postId);
+            const post = await Post.findById(postId);
             if (!!post) {
                 post.cards.unshift({
                     body,
+                    username,
+                    createdAt: new Date().toISOString()
+                })
+                await post.save();
+                return post;
+            } else {
+                throw new UserInputError('Post not found');
+            }
+        },
+        async createPostReact(_,{postId, name }, context){
+            const { username } = checkAuth(context);
+            if (name.trim()==='') {
+                throw new UserInputError('Empty comment',{
+                    errors: {
+                        body: 'React name must not be empty'
+                    }
+                })
+            }
+            const post = await Post.findById(postId);
+            if (!!post) {
+                post.reacts.unshift({
+                    name,
                     username,
                     createdAt: new Date().toISOString()
                 })

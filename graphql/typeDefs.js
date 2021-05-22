@@ -28,7 +28,7 @@ module.exports = gql`
         id: ID!
         createdAt: String!
         username: String!
-        body: String!
+        name: String!
     }
     type User{
         id: ID!
@@ -56,7 +56,7 @@ module.exports = gql`
         deleteBoard(boardId: ID!): String!
         createPost(boardId:ID!, title:String!, body: String!): Post!
         deletePost(postId: ID!): String!
-        createCard(boardId: ID!, postId: String!, body: String!): Post!
-        createReact(postId: ID!, body: String!): Post!
+        createCard(postId: String!, body: String!): Post!
+        createPostReact(postId: ID!, name: String!): React!
     }
 `

@@ -4,7 +4,7 @@ const boardResolvers = require('./boards');
 
 module.exports = {
     Board: {
-        posts: boardResolvers.getFeedingFoodsByHistory
+        posts: boardResolvers.getPostsByBoard
     },
     Query:{
         ...postsResolvers.Query,

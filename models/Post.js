@@ -14,6 +14,7 @@ const postSchema = new Schema({
     ],
     reacts:[
         {
+            name: String,
             username: String,
             createdAt: String
         }

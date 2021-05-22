@@ -4,7 +4,7 @@ const { AuthenticationError, UserInputError, FilterRootFields } = require('apoll
 const Board = require('../../models/Board');
 
 module.exports = {
-    getFeedingFoodsByHistory: (board, {}) => Post.find({ boardId: board.id }),
+    getPostsByBoard: (board, {}) => Post.find({ boardId: board.id }),
     Query: {
         async getBoards () {
             try{
