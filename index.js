@@ -9,6 +9,7 @@ const { MONGODB } = require('./config.js');
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    // mocks: true,
     context: ({ req }) => ({ req }) 
 });
 

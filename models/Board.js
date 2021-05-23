@@ -4,7 +4,7 @@ const boardSchema = new Schema({
     title: String,
     username: String,
     createdAt: String,
-    user: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: 'users'
     }

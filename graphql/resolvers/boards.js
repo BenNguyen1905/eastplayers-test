@@ -32,7 +32,7 @@ module.exports = {
             const user = checkAuth(context);
             const newBoard = new Board ({
                 title,
-                user: user.id,
+                userId: user.id,
                 username: user.username,
                 createdAt: new Date().toISOString()
             });
@@ -55,28 +55,6 @@ module.exports = {
             } catch (err) {
               throw new Error(err);
             }
-        },
-        // async createCard(_,{ postId, body }, context){
-        //     const { username } = checkAuth(context);
-        //     if (body.trim()==='') {
-        //         throw new UserInputError('Empty comment',{
-        //             errors: {
-        //                 body: 'Card body must not be empty'
-        //             }
-        //         })
-        //     }
-        //     const post = await Post.findById(postId);
-        //     if (!!post) {
-        //         post.cards.unshift({
-        //             body,
-        //             username,
-        //             createdAt: new Date().toISOString()
-        //         })
-        //         await post.save();
-        //         return post;
-        //     } else {
-        //         throw new UserInputError('Post not found');
-        //     }
-        // }
+        }
     }
 }
