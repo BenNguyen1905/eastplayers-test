@@ -101,6 +101,52 @@ module.exports = {
             } else {
                 throw new UserInputError('Post not found');
             }
-        }
+        },
+        async updatePost(_, { postId, title, body }, context) {
+            try {
+                const user = await checkAuth(context);
+                const post = await Post.findById(postId);
+                const updatePost = new Post({
+                    _id: post.id,
+                    title,
+                    body
+                })
+                await post.updateOne(updatePost);
+                await post.save();
+                const updatedPost = await Post.findById(post.id);
+                return updatedPost;
+            } catch (err) {
+                throw new Error(err);
+            }
+
+        },
+        async deleteCard(_, { postId, cardId }, context) {
+            const { username } = checkAuth(context);
+            const post = await Post.findById(postId);
+            if (!!post) {
+                const cardIndex = post.cards.findIndex(c => c.id === cardId);
+                if (post.cards[cardIndex].username === username) {
+                    post.cards.splice(cardIndex, 1);
+                    await post.save();
+                    return post;
+                } else {
+                    throw new AuthenticationError('Action not allowed');
+                }
+            }
+        },
+        async deleteReact(_, { postId, reactId }, context) {
+            const { username } = checkAuth(context);
+            const post = await Post.findById(postId);
+            if (!!post) {
+                const reactIndex = post.reacts.findIndex(c => c.id === reactId);
+                if (post.reacts[reactIndex].username === username) {
+                    post.reacts.splice(reactIndex, 1);
+                    await post.save();
+                    return post;
+                } else {
+                    throw new AuthenticationError('Action not allowed');
+                }
+            }
+        },
     }
 }

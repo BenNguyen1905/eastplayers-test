@@ -1,9 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server');
+const checkAuth = require('../../util/check-auth');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 const { SECRET_KEY } = require('../../config');
 const User = require('../../models/Users');
+const Board = require('../../models/Board');
+const Post = require('../../models/Post');
 
 generateToken = (user) => {
     return jwt.sign({
@@ -18,7 +21,7 @@ module.exports = {
         async login(_, { username, password }) {
             const { errors, valid } = validateLoginInput(username, password);
             if (!valid) {
-                throw new UserInputError('Errors',{errors});
+                throw new UserInputError('Errors', { errors });
             }
             const user = await User.findOne({ username });
 
@@ -76,6 +79,28 @@ module.exports = {
                 token
             };
         },
-        
+        async updateUser(_, { email }, context) {
+            try {
+                const user = await checkAuth(context);
+                const temp = await User.findById(user.id);
+                const updateUser = new User({
+                    _id: user.id,
+                    email
+                })
+                await temp.updateOne(updateUser);
+                await temp.save();
+                const updatedUser = await User.findById(user.id);
+                return updatedUser;
+            } catch (err) {
+                throw new Error(err);
+            }
+
+        },
+        async clearDatabase(_, { a }, context) {
+            await User.deleteMany();
+            await Board.deleteMany();
+            await Post.deleteMany();
+            return "cleared!"
+        },
     }
 }

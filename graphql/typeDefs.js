@@ -59,5 +59,10 @@ module.exports = gql`
             createCard(postId: ID!, body: String!): Post!
             createPostReact(postId: ID!, name: String!): React!
             updateBoard(boardId: ID!, title: String!): Board!
+            updateUser(email: String!): User!
+            updatePost(postId: ID!, title: String, body: String): Post!
+            deleteCard(postId: ID!, cardId: ID!): Post!
+            deleteReact(postId: ID!, reactId: ID!): Post!
+            clearDatabase(a: String): String!
         }
 `
