@@ -55,6 +55,22 @@ module.exports = {
             } catch (err) {
               throw new Error(err);
             }
-        }
+        },
+        async updateBoard(_, {boardId, title}, context) {
+            try {
+                const user = await checkAuth(context);
+                const board = await Board.findById(boardId);
+                const updateBoard = new Board({
+                    _id: board.id,
+                    title
+                })
+                await board.updateOne(updateBoard);
+                await board.save();
+                const updatedBoard = await Board.findById(boardId);
+                return updatedBoard;
+            } catch (err) {
+                throw new Error(err);
+            }
+        },
     }
 }
