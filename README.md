@@ -1,1 +1,1 @@
-Database Diagram link: https://vanlangunivn-my.sharepoint.com/:i:/g/personal/x161026_vanlanguni_vn/EetjpVyy7z1JtunDZGJJGDABPsX6xD7M_eDwZVMVn32Jfg?e=OR8YhO
+Database Diagram link: https://bom.to/st99AVRGvmd5V
